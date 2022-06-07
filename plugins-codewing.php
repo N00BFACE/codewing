@@ -1,13 +1,47 @@
 <?php
 /**
  * Author: Bishal Shrestha
- * Plugin Name: Counter
+ * Plugin Name: Poster
  * Version: 1.0
- * Description: A plugin that counts.
+ * Description: A plugin that presents all the posts.
  * Category: InternPluginTask
  */
 
- class Counter {
+
+// function that runs when shortcode is called
+function wpb_demo_shortcode() {
+    // the query
+    $query = new WP_Query( array( 'author_name' => 'codewing' ) ); ?>
+    
+    <?php if ( $query->have_posts() ) : ?>
+    
+        <!-- pagination here -->
+    
+        <!-- the loop -->
+        <?php while ( $query->have_posts() ) : $query->the_post(); ?>
+            <h2><?php the_title(); ?></h2>
+            <i><?php the_content(); ?></i>
+            <?php comment_form(  ); ?>
+        <?php endwhile; ?>
+        <?php echo 'Search found '.$query->post_count.' results';?>
+        <br>
+        <!-- end of the loop -->
+    
+        <!-- pagination here -->
+    
+        <?php wp_reset_postdata(); ?>
+    
+    <?php else : ?>
+        <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+    <?php endif; ?>
+<?php
+}
+
+
+// register shortcode
+add_shortcode('greeting', 'wpb_demo_shortcode');
+
+class Counter {
     function __construct(){
         add_action('admin_menu', array($this, 'pluginPage'));
         add_action('admin_init', array($this, 'pluginSettings')); //pluginSettings->method/funtion
@@ -27,7 +61,7 @@
         }
         
         if(get_option( 'count', '1' )) {
-            $html = 'This post has ' . $wordCount . ' words.<br>';
+            $html = 'This post has ' . $wordCount . ' words.';
         }
 
         if(get_option( 'location', '0' ) == 0) {
@@ -37,32 +71,14 @@
     }
 
     function pluginSettings() {
-        // add_settings_section(1,2,3,4); -> wp-query short code widget
-        // 1=> Name of the section
-        // 2=> Title for the section -> null if sub titles not needed
-        // 3=> Content
-        // 4=> Page slug
         add_settings_section('first_section',null, null, 'counter-plugins-setting');
-
         add_settings_section('second_section',null, null, 'counter-plugins-setting');
 
-        // add_settings_field(1,2,3,4,5)
-        // 1=> name of the setting
-        // 2=> HTML label text
-        // 3=> function responsible for html custom output
-        // 4=> Page slug
-        // 5=> name of the section
         add_settings_field('location','Display Location', array($this, 'locationHTML'), 'counter-plugins-setting', 'first_section');
-
-        // register_setting(1,2,3); -> use as times neede
-        // 1=> name of the group
-        // 2=> actual name for the setting
-        // 3=> array(sanitize/validate , default)
         register_setting('counterPlugin','location', array('sanitize_callback'=> array($this, 'sanitize_location'),'default'=>'0'));
 
         add_settings_field('count','Word count', array($this, 'countHTML'), 'counter-plugins-setting', 'second_section');
         register_setting('counterPlugin','count', array('sanitize_callback'=>'sanitize_text_field','default'=>'1'));
-
     }
 
     function sanitize_location($input) {
