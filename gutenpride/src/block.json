@@ -3,22 +3,43 @@
 	"apiVersion": 2,
 	"name": "create-block/gutenpride",
 	"version": "0.1.0",
-	"title": "Guten Pride",
+	"title": "Gutenberg Block",
 	"category": "text",
 	"icon": "filter",
-	"description": "A Gutenberg block to show your pride! This block enables you to type text and style it with the color font Gilbert from Type with Pride.",
+	"description": "A paragraph block made for Guten Pride",
 	"attributes": {
-		"message": {
+		"heading": {
 			"type": "string",
 			"source": "text",
-			"selector": "div"
+			"selector": "h1"
+		},
+		"content": {
+			"type": "string",
+			"source": "text",
+			"selector": "p"
+		},
+		"showHeading": {
+			"type": "boolean",
+			"default": true
+		},
+		"showParagraph": {
+			"type": "boolean",
+			"default": true
 		}
 	},
 	"supports": {
-		"html": false
+		"align": true,
+		"html": false,
+		"color": {
+			"foreground": true,
+			"background": true
+		},
+		"wide": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		}
 	},
 	"textdomain": "gutenpride",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css"
+	"editorScript": "file:./index.js"
 }

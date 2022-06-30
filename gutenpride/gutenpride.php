@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Gutenpride
+ * Plugin Name:       Gutenpride 
  * Description:       A Gutenberg block to show your pride! This block enables you to type text and style it with the color font Gilbert from Type with Pride.
  * Version:           0.1.0
  * Requires at least: 5.9
@@ -18,7 +18,7 @@
  * Behind the scenes, it registers also all assets so they can be enqueued
  * through the block editor in the corresponding context.
  *
- * @see https://developer.wordpress.org/reference/functions/register_block_type/
+ * @see https://developer.wordpress.org/referwence/functions/register_block_type/
  */
 function create_block_gutenpride_block_init() {
 	register_block_type( __DIR__ . '/build' );
