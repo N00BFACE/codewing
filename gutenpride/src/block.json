@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "create-block/gutenpride",
+	"version": "0.1.0",
+	"title": "Gutenberg Block",
+	"category": "text",
+	"icon": "filter",
+	"description": "A paragraph block made for Guten Pride",
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"source": "text",
+			"selector": "h1"
+		},
+		"content": {
+			"type": "string",
+			"source": "text",
+			"selector": "p"
+		},
+		"showHeading": {
+			"type": "boolean",
+			"default": true
+		},
+		"showParagraph": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"supports": {
+		"align": true,
+		"html": false,
+		"color": {
+			"foreground": true,
+			"background": true
+		},
+		"wide": true,
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true
+		}
+	},
+	"textdomain": "gutenpride",
+	"editorScript": "file:./index.js"
+}
