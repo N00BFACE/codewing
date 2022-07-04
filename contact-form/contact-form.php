@@ -65,7 +65,6 @@ function single_repeatable_meta_box_callback($post) {
 				row.insertBefore( '#repeatable-fieldset-one tbody>tr:last' );
 				return false;
 			});
-
 			$( '.remove-row' ).on('click', function() {
 				$(this).parents('tr').remove();
 				return false;
