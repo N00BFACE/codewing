@@ -55,7 +55,7 @@ function single_rapater_meta_boxes() {
         'contact-form'
     );
 }
-require plugin_dir_path( __FILE__ ) . 'repeater-callback.php';
+
 add_action('save_post', 'single_repeatable_meta_box_save');
 
 function single_repeatable_meta_box_save($post_id) {
