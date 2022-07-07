@@ -1,19 +1,25 @@
 <?php
 /**
 * Plugin Name: Contact Form
-* Author: bishalcodewing
+* Author: bishal@codewing
 * Version: 1.0.0
 * License: GPLv2 or later
 * Description: A plugin to create custom contact forms and display them using either shortcodes or blocks
+* Text Domain: contact-form
+* 
+* @package contact-form
 */
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly.
 }
+
 add_action('wp_enqueue_scripts', 'post_style');
 function post_style() {
-  wp_register_style('new_style', plugins_url( 'contact-form/style.css' ));
-  wp_enqueue_style( 'new_style');
-  wp_enqueue_script('new_script', plugins_url( 'contact-form/script.js' ));
+	wp_register_style('new_style', plugins_url( 'contact_form_block_plugin/style.css' ));
+	wp_enqueue_style( 'new_style');
+	wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js');
+
+	wp_enqueue_script('new_script', plugins_url( 'contact_form_block_plugin/script.js' )); 	
 }
 
 add_action( 'init', 'custom_post_type' );
@@ -39,82 +45,25 @@ function custom_post_type(){
     );
 }
 
-
-// Add Meta Box to post
 add_action('add_meta_boxes', 'single_rapater_meta_boxes');
 
 function single_rapater_meta_boxes() {
 	add_meta_box(
         'wporg_box_id',
-        'Contact Form',
+        'Contact Form Fields',
         'single_repeatable_meta_box_callback',
         'contact-form'
     );
 }
 
-function single_repeatable_meta_box_callback($post) {
-	$single_repeter_group = get_post_meta($post->ID, 'single_repeter_group', true);
-	$banner_img = get_post_meta($post->ID,'post_banner_img',true);
-	wp_nonce_field( 'repeterBox', 'formType' );
-	?>
-	<script type="text/javascript">
-		jQuery(document).ready(function( $ ){
-			$( '#add-row' ).on('click', function() {
-				var row = $( '.empty-row.custom-repeter-text' ).clone(true);
-				row.removeClass( 'empty-row custom-repeter-text' ).css('display','table-row');
-				row.insertBefore( '#repeatable-fieldset-one tbody>tr:last' );
-				return false;
-			});
-			$( '.remove-row' ).on('click', function() {
-				$(this).parents('tr').remove();
-				return false;
-			});
-		});
-
-	</script>
-
-	<table id="repeatable-fieldset-one" class="container">
-    <tbody>
-			<?php
-			if ( $single_repeter_group ) :
-				foreach ( $single_repeter_group as $field ) {
-					?>
-					<tr>
-						<td><input type="text"  style="width:98%;" name="title[]" value="<?php if($field['title'] != '') echo esc_attr( $field['title'] ); ?>" placeholder="Heading" /></td>
-						<td><input type="text"  style="width:98%;" name="tdesc[]" value="<?php if ($field['tdesc'] != '') echo esc_attr( $field['tdesc'] ); ?>" placeholder="Description" /></td>
-						<td><a class="button remove-row" href="#1">Remove</a></td>
-					</tr>
-					<?php
-				}
-			else :
-				?>
-				<tr>
-					<td><input type="text"   style="width:98%;" name="title[]" placeholder="Heading"/></td>
-					<td><input type="text"  style="width:98%;" name="tdesc[]" value="" placeholder="Description" /></td>
-					<td><a class="button  cmb-remove-row-button button-disabled" href="#">Remove</a></td>
-				</tr>
-			<?php endif; ?>
-			<tr class="empty-row custom-repeter-text" style="display: none">
-				<td><input type="text" style="width:98%;" name="title[]" placeholder="Heading"/></td>
-				<td><input type="text" style="width:98%;" name="tdesc[]" value="" placeholder="Description"/></td>
-				<td><a class="button remove-row" href="#">Remove</a></td>
-			</tr>
-
-		</tbody>
-	</table>
-	<p><a id="add-row" class="button" href="#">Add another</a></p>
-	<?php
-}
-
-// Save Meta Box values.
 add_action('save_post', 'single_repeatable_meta_box_save');
 
 function single_repeatable_meta_box_save($post_id) {
 
-	if (!isset($_POST['formType']) && !wp_verify_nonce($_POST['formType'], 'repeterBox'))
-		return;
+	if (!isset($_POST['formType']))
+		return null;
 	if (!current_user_can('edit_post', $post_id))
-		return;
+		return null;
 	$old = get_post_meta($post_id, 'single_repeter_group', true);
 
 	$new = array();
@@ -136,40 +85,63 @@ function single_repeatable_meta_box_save($post_id) {
 	$repeter_status= $_REQUEST['repeter_status'];
 	update_post_meta( $post_id, 'repeter_status', $repeter_status );
 }
+
 function display_content($post_id) {
     $id = $post_id;
     $feture_template = get_post_meta($id, 'single_repeter_group', true);
     if(!empty($feture_template)) {
       $html = "<div class='container'>";
-      $html .= "<form id='form' class='form'>";
+      $html .= "<form id='myform' class='form' method='POST'>";
       $html .= "<h2>Contact With Us</h2>";
+	  $html .= "<div id='data'></div>";
       $html .= "<div class='form-control'>";
       foreach ($feture_template as $item) {
         $html .= "<label>" . $item['title'] . "</label>";
-        if( ($item['title'] == 'Message') || ($item['title'] == 'Content') || ($item['title'] == 'Body')) {
-          $html .= "<textarea name='tdesc' id='content' placeholder='" . $item['tdesc'] . "'></textarea>";
+		if( ($item['title'] == 'Name')) {
+			$html .= "<div class='form-group'>
+						<input type='text' id='fullname' name='name' placeholder='" . $item['tdesc'] . "' required minlength='10' maxlength='100'/>
+						<span class='error' id='name_err'></span>
+					<div>";
+		}
+        else if( ($item['title'] == 'Email')) {
+			$html .= "<div class='form-group'>
+						<input type='email' id='email' name='email' placeholder='" . $item['tdesc'] . "' required minlength='10' maxlength='100'/>
+						<span class='error' id='email_err'></span>
+					<div>";
         }
-        elseif( ($item['title'] == 'Username') || ($item['title'] == 'Full Name') || ($item['title'] == 'Fullname') || ($item['title'] == 'Name')) {
-          $html .= "<input type='text' id='username' name='tdesc' placeholder='" . $item['tdesc'] . "'/>";
-        }
-        elseif( ($item['title'] == 'Email') || ($item['title'] == 'Email Address')) {
-          $html .= "<input type='text' id='email' name='tdesc' placeholder='" . $item['tdesc'] . "'/>";
-        }
-        elseif( ($item['title'] == 'Address') || ($item['title'] == 'Location') || ($item['title'] == 'Residence')) {
-          $html .= "<input type='text' id='address' name='tdesc' placeholder='" . $item['tdesc'] . "'/>";
-        }
-        elseif( ($item['title'] == 'Contact') || ($item['title'] == 'Contact Number') || ($item['title'] == 'Number') || ($item['title'] == 'Phone Number')) {
-          $html .= "<input type='text' id='contact' name='tdesc' placeholder='" . $item['tdesc'] . "'/>";
-        }
+		else if( ($item['title'] == 'Contact')) {
+			$html .= "<div class='form-group'>
+						<input type='text' id='contact' name='contact' placeholder='" . $item['tdesc'] . "' required minlength='10' maxlength='12'/>
+						<span class='error' id='con_err'></span>
+					</div>";
+		}
+		else if( ($item['title'] == 'Subject')) {
+			$html .= "<div class='form-group'>
+						<input type='text' id='subject' name='subject' placeholder='" . $item['tdesc'] . "' required minlength='10' maxlength='12'/>
+						<span class='error' id='subject_err'></span>
+					</div>";
+		}
+		else if( ($item['title'] == 'Message')) {
+			$html .= "<div class='form-group'>
+						<textarea class='form-control' name='message' id='message' placeholder='" . $item['tdesc'] . "' required  maxlength='500' ></textarea>
+						<span class='error' id='msg_err'></span>
+					<div>";
+		}
         else {
-          $html .= "<input type='text' name='tdesc' placeholder='" . $item['tdesc'] . "'/>";
+          	$html .= "<div class='form-group'>
+						<input type='text' id ='tdesc' name='tdesc' placeholder='" . $item['tdesc'] . "' required maxlength='100'/>
+						<span class='error' id='tdesc_err'></span>
+					</div>";
         }
       }
-      $html .= "<input type='button' class='button' id='submit' value='Send'/>";
-      $html .= "<span id='err'></span></div>";
+      $html .= "<input type='submit' class='button' id='submitbtn' value='Submit' name='submit_form'/>";
+	  $html .= "<input type='reset' class='button' id='reset' value='Reset'/>";
+      $html .= "</div>";
       $html .= "</form>";
       $html .= "</div>";
       return $html;
     }
 }
 require plugin_dir_path( __FILE__ ) . 'contact-form-shortcode.php';
+require plugin_dir_path( __FILE__ ) . 'mail-function.php';
+require plugin_dir_path( __FILE__ ) . 'admin-mail.php';

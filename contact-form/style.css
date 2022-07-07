@@ -9,16 +9,6 @@
   box-sizing: border-box;
 }
 
-body {
-  background-color: #f9fafb;
-  font-family: 'Open Sans', sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  margin: 0;
-}
-
 .container {
   font-family: 'Open Sans', sans-serif;
   background-color: #fff;
@@ -78,18 +68,6 @@ h2 {
 .form-control.error input {
   border-color: var(--error-color);
 }
-.form-control textarea:focus {
-  outline: 0;
-  border-color: #777;
-}
-
-.form-control.success textarea {
-  border-color: var(--success-color);
-}
-
-.form-control.error textarea {
-  border-color: var(--error-color);
-}
 
 .form-control small {
   color: var(--error-color);
@@ -103,6 +81,7 @@ h2 {
   visibility: visible;
 }
 
+
 .button {
   cursor: pointer;
   background-color: #3498db;
@@ -114,4 +93,16 @@ h2 {
   padding: 10px;
   margin-top: 20px;
   width: 100%;
+}
+.error input {
+  border-color: red;
+  border-width: 2px;
+}
+
+.error span {
+  color: red;
+}
+
+span.error {
+  color: red;
 }
