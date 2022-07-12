@@ -6,7 +6,8 @@ window.onload = function() {
     var email_err = document.getElementById('email_err');
     var contact = document.getElementById('contact');
     var con_err = document.getElementById('con_err');
-
+    var subject = document.getElementById('subject');
+    var subject_err = document.getElementById('subject_err');
     var msg = document.getElementById('message');
     var msg_err = document.getElementById('msg_err');
 
