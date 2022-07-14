@@ -5,9 +5,9 @@ function add_contact_field() {
 		'contact_field', 
 		'Contact Email', 
 		'contact_field_callback', 
-		'contact-form');
+		'contactform');
 }
-function contact_field_callback( $post ) {
+function contact_field_callback( ) {
 	wp_nonce_field( 'save_contact_field', 'contact_field_nonce' );
 	$email = get_option('admin_email');
 	echo "<div class='container'>";

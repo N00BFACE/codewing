@@ -14,7 +14,7 @@ function shortcode_contact_form($atts=[], $content = null, $tag='') {
       'id' => '585',
     ), $atts, $tag );
     $args = array(
-      'post_type' => 'contact-form',
+      'post_type' => 'contactform',
     );
     $query = new WP_Query($args);
     if($query->have_posts()){
