@@ -44,7 +44,6 @@ function single_repeatable_meta_box_callback($post) {
 				<td><input type="text" style="width:98%;" name="tdesc[]" value="" placeholder="Description"/></td>
 				<td><a class="button remove-row" href="#">Remove</a></td>
 			</tr>
-
 		</tbody>
 	</table>
 	<p><a id="add-row" class="button" href="#">Add Text Field</a></p>

@@ -1,0 +1,15 @@
+{
+  "name": "contact_form_block_plugin",
+  "version": "1.0.0",
+  "description": "A block for contact form plugin",
+  "main": "script.js",
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start"
+  },
+  "author": "bishal@codewing",
+  "license": "GPL-2.0-or-later",
+  "devDependencies": {
+    "@wordpress/scripts": "23.4.0"
+  }
+}

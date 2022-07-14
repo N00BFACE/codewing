@@ -1,0 +1,23 @@
+{
+    "apiVersion": 2,
+    "name": "create-block/contact-form",
+    "version": "0.1.0",
+    "title": "Contact Form",
+    "category": "widgets",
+    "icon": "email-alt",
+    "description": "Custom block for contact form plugin.",
+    "supports": {
+        "html": false
+    },
+    "attributes": {
+        "contactform": {
+            "post_type": "contactform",
+            "type": "object"
+        },
+        "selectedPost": {
+            "type": "string"
+        }
+    },
+    "textdomain": "contact-form",
+    "editorScript": "file:./index.js"
+}
