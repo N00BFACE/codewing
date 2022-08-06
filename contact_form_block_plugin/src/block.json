@@ -10,14 +10,25 @@
         "html": false
     },
     "attributes": {
-        "contactform": {
-            "post_type": "contactform",
-            "type": "object"
+        "content": {
+            "type": "array",
+            "source": "children",
+            "selector": "p"
+        },
+        "title": {
+            "type": "string",
+            "selector": "h2"
         },
         "selectedPost": {
+            "type": "object",
+            "post_tye": "metablocks",
+            "default": 0
+        },
+        "postid": {
             "type": "string"
         }
     },
     "textdomain": "contact-form",
-    "editorScript": "file:./index.js"
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./editor.css"
 }

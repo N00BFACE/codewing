@@ -11,10 +11,10 @@ function shortcode_contact_form($atts=[], $content = null, $tag='') {
   else {
     $atts = array_change_key_case( (array) $atts, CASE_LOWER );
     $head_atts = shortcode_atts( array(
-      'id' => '585',
+      'id' => ' ',
     ), $atts, $tag );
     $args = array(
-      'post_type' => 'contactform',
+      'post_type' => 'metablocks',
     );
     $query = new WP_Query($args);
     if($query->have_posts()){
