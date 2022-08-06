@@ -5,7 +5,7 @@ function add_contact_field() {
 		'contact_field', 
 		'Contact Email', 
 		'contact_field_callback', 
-		'contactform');
+		'metablocks');
 }
 function contact_field_callback( ) {
 	wp_nonce_field( 'save_contact_field', 'contact_field_nonce' );

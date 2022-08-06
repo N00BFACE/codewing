@@ -19,6 +19,9 @@
         if($_POST['subject'] != '') {
             $subject = "Subject: " . $_POST['subject'];
         }
+        if($_POST['tdesc'] != '') {
+            $message .= "Extra Details: " . $_POST['tdesc'];
+        }
         $test = wp_mail($to, $subject, $message);
         if($test) {
             echo "success";

@@ -75,42 +75,41 @@ window.onload = function() {
                 tdesc_err.innerHTML = '';
             }
         }
-
-        jQuery(document).ready(function($) {
-            $('input.button').click(function(e) {
-                e.preventDefault();
-                var that = $(this),
-                type = that.attr('method');
-                var name = $('#fullname').val();
-                var email = $('#email').val();
-                var contact = $('#contact').val();
-                var subject = $('#subject').val();
-                var msg = $('#message').val();
-                var tdesc = $('#tdesc').val();
-                $.ajax({
-                    url: cpm_object.ajax_url,
-                    type: 'POST',
-                    data: {
-                        action: 'mail_function',
-                        name: name,
-                        email: email,
-                        contact: contact,
-                        subject: subject,
-                        msg: msg,
-                        tdesc: tdesc
-                    },
-                    success: function(data) {
-                        console.log('Hello');
-                        console.log(data);
-                        if(data == 'success') {
-                            error.innerHTML = 'Message sent successfully';
+        if(name_err.innerHTML == '' && email_err.innerHTML == '' && subject_err.innerHTML == '' && msg_err.innerHTML == '' && con_err.innerHTML == '' && tdesc_err.innerHTML == '' && validemail) {
+            jQuery(document).ready(function($) {
+                $('input.button').click(function(e) {
+                    e.preventDefault();
+                    var that = $(this),
+                    type = that.attr('method');
+                    var name = $('#fullname').val();
+                    var email = $('#email').val();
+                    var contact = $('#contact').val();
+                    var subject = $('#subject').val();
+                    var msg = $('#message').val();
+                    var tdesc = $('#tdesc').val();
+                    $.ajax({
+                        url: cpm_object.ajax_url,
+                        type: 'POST',
+                        data: {
+                            action: 'mail_function',
+                            name: name,
+                            email: email,
+                            contact: contact,
+                            subject: subject,
+                            msg: msg,
+                            tdesc: tdesc
+                        },
+                        success: function(data) {
+                            if(data == 'success') {
+                                error.innerHTML = 'Message sent successfully';
+                            }
+                            else if(data == 'error') {
+                                error.innerHTML = 'Message not sent';
+                            }
                         }
-                        else {
-                            error.innerHTML = 'Message not sent';
-                        }
-                    }
+                    });
                 });
             });
-        });
+        }
     });
 }
