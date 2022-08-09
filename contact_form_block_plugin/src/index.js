@@ -74,25 +74,15 @@ class mySelectPosts extends Component {
         return [
             !!this.props.isSelected && (
                 <div>
-                    <InspectorControls key="inspector">
-                        <Panel>
-                            <PanelBody title={ __( 'Select a post' ) }>
-                                <SelectControl
-                                    onChange={this.onChangeSelectPost}
-                                    value={this.props.attributes.selectedPost}
-                                    label={ __('Select Post') }
-                                    options={options}
-                                />
-                            </PanelBody>
-                        </Panel>
-                    </InspectorControls>
+                    <SelectControl
+                        onChange={this.onChangeSelectPost}
+                        value={this.props.attributes.selectedPost}
+                        label={ __('Select Post') }
+                        options={options}
+                    />
                 </div>
             ), 
             <div className={this.props.className}>
-                <RichText
-                    tagName="h4"
-                    value={"Click me to edit."}
-                />
                 {output}
             </div>
         ]
