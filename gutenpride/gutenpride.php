@@ -24,3 +24,52 @@ function create_block_gutenpride_block_init() {
 	register_block_type( __DIR__ . '/build' );
 }
 add_action( 'init', 'create_block_gutenpride_block_init' );
+
+add_action( 'init', 'custom_post_type' );
+function custom_post_type(){
+    register_post_type( 'contactform',
+        array(
+            'labels' => array(
+                'name' => __( 'Contact Forms' ),
+                'singular_name' => __( 'Contact Form' )
+            ),
+            'add_new' => 'Add New Form',
+            'public' => true,
+            'publicly_queryable' => false,
+            'exclude_from_search' => true,
+            'has_archive' => true,
+            'rewrite' => array(
+                'slug' => 'contactform'
+            ),
+            'menu_icon' => 'dashicons-email-alt',
+            'show_in_rest' => true,
+            'supports' => array(
+                'title',
+                'editor',
+                'custom-fields',
+            )
+        )
+    );
+}
+
+function myguten_register_post_meta() {
+	register_post_meta(
+		'contactform',
+		'myguten_meta_block_field',
+		array(
+			'show_in_rest' => true,
+			'single' => true,
+			'type' => 'string',
+		)
+	);
+}
+add_action('init', 'myguten_register_post_meta');
+function myguten_content_filter( $content ) {
+    $value = get_post_meta( get_the_ID(), 'myguten_meta_block_field', true );
+    if ( $value ) {
+        return sprintf( "%s <h4> %s </h4>", $content, esc_html( $value ) );
+    } else {
+        return $content;
+    }
+}
+add_filter( 'the_content', 'myguten_content_filter' );
