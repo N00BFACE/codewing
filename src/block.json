@@ -1,0 +1,112 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "create-block/pageblock",
+	"version": "0.1.0",
+	"title": "Pageblock",
+	"category": "widgets",
+	"icon": "admin-page",
+	"description": "Example static block scaffolded with Create Block tool.",
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"header_title": {
+			"type": "object",
+			"default": {
+				"text": "",
+				"tag": "h2",
+				"align": "",
+				"color": ""
+			}
+		},
+		"header_subtitle": {
+			"type": "object",
+			"default": {
+				"text": "",
+				"tag": "small",
+				"color": ""
+			}
+		},
+		"image": {
+			"type": "object",
+			"default": {
+				"url": "",
+				"id": "",
+				"alt": ""
+			}
+		},
+		"showHeader": {
+			"type": "boolean",
+			"default": true
+		},
+		"showTitle": {
+			"type": "boolean",
+			"default": true
+		},
+		"showSubtitle": {
+			"type": "boolean",
+			"default": true
+		},
+		"showImage": {
+			"type": "boolean",
+			"default": true
+		},
+		"showRow": {
+			"type": "boolean",
+			"default": true
+		},
+		"row_one": {
+			"type": "object",
+			"default": {
+				"text": "",
+				"selector": ".row-one",
+				"align": "",
+				"back": "",
+				"color": "",
+				"url": "",
+				"id": "",
+				"alt": ""
+			}
+		},
+		"showRowOne": {
+			"type": "boolean",
+			"default": true
+		},
+		"showRowOneImage": {
+			"type": "boolean",
+			"default": true
+		},
+		"showRowOneText": {
+			"type": "boolean",
+			"default": true
+		},
+		"row_two": {
+			"type": "object",
+			"default": {
+				"text": "",
+				"selector": ".row-one",
+				"align": "",
+				"back": "",
+				"color": "",
+				"url": "",
+				"id": "",
+				"alt": ""
+			}
+		},
+		"showRowTwo": {
+			"type": "boolean",
+			"default": true
+		},
+		"showRowTwoImage": {
+			"type": "boolean",
+			"default": true
+		},
+		"showRowTwoText": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"textdomain": "pageblock",
+	"editorScript": "file:./index.js"
+}
